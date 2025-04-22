@@ -7,13 +7,14 @@ const { Server } = require('socket.io');
 const transactionRoutes = require('./routes/transactions');
 const stationRoutes = require('./routes/stations');
 const receiptRoutes = require('./routes/receipts');
+const authRoutes = require('./routes/auth'); // Add auth routes
 const Transaction = require('./models/Transaction');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, { cors: { origin: 'http://localhost:5173' } });
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 let isMongoConnected = false;
@@ -37,6 +38,7 @@ mongoose
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/stations', stationRoutes);
 app.use('/api/receipts', receiptRoutes);
+app.use('/api/auth', authRoutes); // Add auth routes
 
 app.get('/', (req, res) => {
   res.json({ message: 'GasTax Pro API' });

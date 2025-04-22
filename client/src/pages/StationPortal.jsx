@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 
 function StationPortal() {
+  const { user } = useContext(AuthContext);
   const [station, setStation] = useState(null);
   const [transactions, setTransactions] = useState([]);
-  const stationId = 'station-1'; // Mock for demo
+  const stationId = user?.stationId || 'station-1'; // Use user's stationId
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +23,7 @@ function StationPortal() {
     };
 
     fetchData();
-  }, []);
+  }, [stationId]);
 
   if (!station) return <div className="container mx-auto p-4 text-center text-gray-200">Loading...</div>;
 
