@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-gradient-to-br from-gray-900 to-gray-800 text-white;
+}
+
+.card-hover {
+  @apply transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-700;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-700;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-green-600 rounded;
+}
+
+input, select, button {
+  @apply focus:outline-none focus:ring-2 focus:ring-green-600;
+}
+
+table th, table td {
+  @apply p-2;
+}
+
+table thead {
+  @apply bg-gray-700 text-gray-300;
+}
+
+table tbody tr {
+  @apply border-t border-gray-600;
+}
