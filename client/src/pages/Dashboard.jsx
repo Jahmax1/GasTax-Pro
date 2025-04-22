@@ -22,17 +22,17 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const [transRes, statRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/transactions'),
-          axios.get('http://localhost:5000/api/stations'),
-        ]);
-        setTransactions(transRes.data);
-        setStations(statRes.data);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-      }
-    };
+        try {
+          const transRes = await axios.get('http://localhost:5000/api/transactions');
+          const statRes = await axios.get('http://localhost:5000/api/stations');
+          setTransactions(transRes.data || []);
+          setStations(statRes.data || []);
+        } catch (err) {
+          console.error('Error fetching data:', err);
+          setTransactions([]);
+          setStations([]);
+        }
+      };
 
     fetchData();
 
@@ -90,8 +90,8 @@ function Dashboard() {
                 tooltip: { backgroundColor: '#1f2937', titleColor: 'white', bodyColor: 'white' },
               },
               scales: {
-                x: { ticks: { color: 'white' } },
-                y: { ticks: { color: 'white' } },
+                x: { ticks: { color: 'white' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                y: { ticks: { color: 'white' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
               },
             }}
           />
@@ -118,3 +118,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+

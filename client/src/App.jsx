@@ -1,13 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import StationPortal from './pages/StationPortal';
-import ConsumerPage from './pages/ConsumerPage';
-import TaxImpact from './pages/TaxImpact';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import StationPortal from './pages/StationPortal.jsx';
+import ConsumerPage from './pages/ConsumerPage.jsx';
+import TaxImpact from './pages/TaxImpact.jsx';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div>
       <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
