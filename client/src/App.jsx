@@ -1,9 +1,20 @@
-import './index.css';
+import { Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import StationPortal from './pages/StationPortal';
+import ConsumerPage from './pages/ConsumerPage';
+import Navbar from './components/Navbar';
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Welcome to GasTax Pro</h1>
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/station" element={<StationPortal />} />
+        <Route path="/consumer" element={<ConsumerPage />} />
+      </Routes>
     </div>
   );
 }
+
 export default App;

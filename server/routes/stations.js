@@ -29,4 +29,14 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/:stationId', async (req, res) => {
+    try {
+      const station = await Station.findOne({ stationId: req.params.stationId });
+      if (!station) return res.status(404).json({ message: 'Station not found' });
+      res.json(station);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
 module.exports = router;

@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
+const receiptRoutes = require('./routes/receipts');
+
 
 const transactionRoutes = require('./routes/transactions');
 const stationRoutes = require('./routes/stations');
@@ -15,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/stations', stationRoutes);
+app.use('/api/receipts', receiptRoutes);
 
 // MongoDB connection (replace with your MongoDB Atlas URI later)
 mongoose.connect('mongodb+srv://jahmaxsimba:iiuQ6h6Aj0HVl3OJ@cluster0.lcp64zw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
