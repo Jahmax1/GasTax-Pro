@@ -2,7 +2,6 @@ const express = require('express');
 const Station = require('../models/Station');
 const router = express.Router();
 
-// Get all stations
 router.get('/', async (req, res) => {
   try {
     const stations = await Station.find();
@@ -12,7 +11,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Create a station
+router.get('/:stationId', async (req, res) => {
+  try {
+    const station = await Station.findOne({ stationId: req.params.stationId });
+    if (!station) return res.status(404).json({ message: 'Station not found' });
+    res.json(station);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.post('/', async (req, res) => {
   const station = new Station({
     stationId: req.body.stationId,
@@ -28,15 +36,5 @@ router.post('/', async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-
-router.get('/:stationId', async (req, res) => {
-    try {
-      const station = await Station.findOne({ stationId: req.params.stationId });
-      if (!station) return res.status(404).json({ message: 'Station not found' });
-      res.json(station);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  });
 
 module.exports = router;

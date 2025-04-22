@@ -2,7 +2,6 @@ const express = require('express');
 const Receipt = require('../models/Receipt');
 const router = express.Router();
 
-// Get receipt by ID
 router.get('/:receiptId', async (req, res) => {
   try {
     const receipt = await Receipt.findOne({ receiptId: req.params.receiptId });

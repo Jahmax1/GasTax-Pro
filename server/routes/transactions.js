@@ -2,7 +2,6 @@ const express = require('express');
 const Transaction = require('../models/Transaction');
 const router = express.Router();
 
-// Get all transactions
 router.get('/', async (req, res) => {
   try {
     const transactions = await Transaction.find().sort({ timestamp: -1 });
@@ -12,7 +11,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Create a transaction
 router.post('/', async (req, res) => {
   const transaction = new Transaction({
     stationId: req.body.stationId,
