@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import { Bar } from 'react-chartjs-2';
+import { motion } from 'framer-motion';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +15,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const socket = io('http://localhost:5000');
+const socket = io('http://localhost:5000', { transports: ['websocket', 'polling'] });
 
 function Dashboard() {
   const [transactions, setTransactions] = useState([]);
@@ -22,17 +23,17 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          const transRes = await axios.get('http://localhost:5000/api/transactions');
-          const statRes = await axios.get('http://localhost:5000/api/stations');
-          setTransactions(transRes.data || []);
-          setStations(statRes.data || []);
-        } catch (err) {
-          console.error('Error fetching data:', err);
-          setTransactions([]);
-          setStations([]);
-        }
-      };
+      try {
+        const transRes = await axios.get('http://localhost:5000/api/transactions');
+        const statRes = await axios.get('http://localhost:5000/api/stations');
+        setTransactions(transRes.data || []);
+        setStations(statRes.data || []);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setTransactions([]);
+        setStations([]);
+      }
+    };
 
     fetchData();
 
@@ -64,24 +65,56 @@ function Dashboard() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-green-400">Revenue Authority Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
-          <h2 className="text-xl font-semibold mb-2">Total Revenue</h2>
+      <motion.h1
+        className="text-3xl font-bold mb-6 text-green-400"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Revenue Authority Dashboard
+      </motion.h1>
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ staggerChildren: 0.2 }}
+      >
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h2 className="text-xl font-semibold mb-2 text-gray-200">Total Revenue</h2>
           <p className="text-2xl text-green-400">${totalRevenue}</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
-          <h2 className="text-xl font-semibold mb-2">Stations Monitored</h2>
+        </motion.div>
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h2 className="text-xl font-semibold mb-2 text-gray-200">Stations Monitored</h2>
           <p className="text-2xl text-green-400">{stations.length}</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
-          <h2 className="text-xl font-semibold mb-2">Transactions</h2>
+        </motion.div>
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h2 className="text-xl font-semibold mb-2 text-gray-200">Transactions</h2>
           <p className="text-2xl text-green-400">{transactions.length}</p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
-          <h2 className="text-xl font-semibold mb-2">Revenue by Station</h2>
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-xl font-semibold mb-2 text-gray-200">Revenue by Station</h2>
           <Bar
             data={chartData}
             options={{
@@ -95,27 +128,41 @@ function Dashboard() {
               },
             }}
           />
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
-          <h2 className="text-xl font-semibold mb-2">Live Transactions</h2>
+        </motion.div>
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-xl font-semibold mb-2 text-gray-200">Live Transactions</h2>
           <ul className="space-y-2 max-h-96 overflow-y-auto">
             {transactions.slice(0, 10).map((t, index) => (
-              <li
+              <motion.li
                 key={index}
                 className="bg-gray-700 p-2 rounded flex justify-between items-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
               >
                 <span>
                   {t.stationId} sold {t.volume}L of {t.fuelType}
                 </span>
-                <span className="text-green-400">${t.taxAmount}</span>
-              </li>
+                <motion.span
+                  className="text-green-400"
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  ${t.taxAmount}
+                </motion.span>
+              </motion.li>
             ))}
           </ul>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
 }
 
 export default Dashboard;
-

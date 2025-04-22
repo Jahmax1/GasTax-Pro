@@ -10,6 +10,23 @@ body {
   @apply transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-700;
 }
 
+.card-glow {
+  @apply relative overflow-hidden;
+}
+
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, transparent, rgba(74, 222, 128, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-glow:hover::before {
+  opacity: 1;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

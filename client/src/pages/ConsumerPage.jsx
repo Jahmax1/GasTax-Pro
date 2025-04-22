@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 function ConsumerPage() {
   const [receiptId, setReceiptId] = useState('');
@@ -26,9 +27,21 @@ function ConsumerPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-green-400">Consumer Interface</h1>
+      <motion.h1
+        className="text-3xl font-bold mb-6 text-green-400"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Consumer Interface
+      </motion.h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 className="text-xl font-semibold mb-2 text-gray-200">Verify Receipt</h2>
           <input
             type="text"
@@ -44,14 +57,24 @@ function ConsumerPage() {
             Verify
           </button>
           {receipt && (
-            <div className="mt-4 p-4 bg-gray-700 rounded">
+            <motion.div
+              className="mt-4 p-4 bg-gray-700 rounded"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
               <p className="text-gray-200">Transaction ID: {receipt.transactionId}</p>
               <p className="text-green-400">VAT: ${receipt.taxDetails.vat}</p>
               <p className="text-green-400">Excise: ${receipt.taxDetails.excise}</p>
-            </div>
+            </motion.div>
           )}
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg card-hover">
+        </motion.div>
+        <motion.div
+          className="bg-gray-800 p-4 rounded-lg card-hover card-glow"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 className="text-xl font-semibold mb-2 text-gray-200">Tax Calculator</h2>
           <div className="mb-4">
             <label className="block mb-1 text-gray-200">Fuel Type</label>
@@ -80,7 +103,7 @@ function ConsumerPage() {
           <p className="text-lg text-gray-200">
             Total Tax: <span className="text-green-400">${calculateTax()}</span>
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
