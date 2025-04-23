@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { AuthContext } from '../context/AuthContext';
 
 function LoginRegister() {
@@ -13,9 +13,7 @@ function LoginRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = isLogin
-        ? 'http://localhost:5000/api/auth/login'
-        : 'http://localhost:5000/api/auth/register';
+      const url = isLogin ? '/auth/login' : '/auth/register';
       const payload = isLogin
         ? { email, password }
         : { email, password, role, stationId: role === 'gasStation' ? stationId : undefined };

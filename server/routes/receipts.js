@@ -12,4 +12,14 @@ router.get('/:receiptId', async (req, res) => {
   }
 });
 
+router.get('/consumer/:consumerId', async (req, res) => {
+  try {
+    const receipts = await Receipt.find({ consumerId: req.params.consumerId })
+      .populate('transactionId');
+    res.json(receipts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
