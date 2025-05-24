@@ -15,10 +15,23 @@ const Transaction = require('./models/Transaction');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: 'http://localhost:5173' } });
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+// CORS configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', // Local development
+    /^https:\/\/gastax-pro-frontend-.*\.vercel\.app$/, // Vercel preview and production URLs
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+};
+
+// Apply CORS to Express
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Apply CORS to Socket.IO
+const io = new Server(server, { cors: corsOptions });
 
 // Rate limiting middleware
 const limiter = rateLimit({
