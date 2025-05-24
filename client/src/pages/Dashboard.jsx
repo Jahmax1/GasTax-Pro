@@ -17,7 +17,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
-const socket = io('http://localhost:5000', { transports: ['websocket', 'polling'] });
+const socket = io('https://gastax-pro-backend.onrender.com', { transports: ['websocket', 'polling'] });
 
 function Dashboard() {
   const [transactions, setTransactions] = useState([]);
